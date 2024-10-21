@@ -1,39 +1,26 @@
-name: Ejecutar scraping
+name: run-scraping
 
 on:
   schedule:
-    - cron: "0 4 * * *"
+    - cron: '0 06 * * *' # Ejecutar todos los días a las 06:00 UTC
   workflow_dispatch:
 
 jobs:
-  run-scraping:
+  scraping-job:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          node-version: '20'
+    - name: Checkout code
+      uses: actions/checkout@v3
 
-      - name: Set up Python
-        uses: actions/setup-python@v3
-        with:
-          python-version: '3.9'
+    - name: Set up Python
+      uses: actions/setup-python@v3
+      with:
+        python-version: '3.9'
 
-      - name: Install dependencies
-        run: |
-          pip install requests beautifulsoup4
-          pip install selenium
-          pip install webdriver-manager
-          pip install chromedriver-binary-auto
+    - name: Install dependencies
+      run: |
+        pip install requests beautifulsoup4 selenium webdriver-manager chromedriver-binary-auto
 
-      - name: Run sunatusd_pen script
-        run: python sunatusd_pen.py
-
-      - name: Commit and push changes
-        run: |
-          git config --global user.name "Your GitHub Username"
-          git config --global user.email "Your GitHub Email"
-          git add datos.csv
-          git commit -m "Actualización de datos"
-          git push
+    - name: Run sunatusd_pen script
+      run: python sunatusd_pen.py
