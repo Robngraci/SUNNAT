@@ -1,0 +1,43 @@
+name: Ejecutar scraping
+
+# Esto configura que el workflow se ejecute todos los días a las 12:00 AM UTC.
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  run-scraping:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Chequear el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      # Configurar Python
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.9'
+
+      # Instalar dependencias
+      - name: Install dependencies
+        run: |
+          pip install requests beautifulsoup4
+          pip install selenium
+          pip install webdriver-manager
+          pip install chromedriver-binary-auto
+
+      # Ejecutar el script de scraping
+      - name: Run scraping script
+        run: python scraping.py
+
+      # Subir el archivo CSV actualizado al repositorio
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "Your GitHub Username"
+          git config --global user.email "Your GitHub Email"
+          git add datos.csv
+          git commit -m "Actualización de datos"
+          git push
