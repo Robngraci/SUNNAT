@@ -2,7 +2,7 @@ name: run-scraping
 
 on:
   schedule:
-    - cron: '0 06 * * *' # Ejecutar todos los días a las 06:00 UTC
+    - cron: '0 6 * * *' # Ejecutar todos los días a las 06:00 UTC
   workflow_dispatch:
 
 jobs:
